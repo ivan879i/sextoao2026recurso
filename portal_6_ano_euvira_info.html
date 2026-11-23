@@ -1,0 +1,2485 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal 6º Ano Euvira Info — Exclusivo 6º Ano</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#4f46e5',
+                            600: '#4338ca',
+                            700: '#3730a3',
+                            900: '#1e1b4b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.45); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.7); }
+        .card-hover { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-4px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300 selection:bg-brand-600 selection:text-white">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[70] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- ===================================================================== -->
+    <!-- 1. AVISO OBRIGATÓRIO VISÍVEL LOGO NO TOPO (BANNER SUPERIOR)           -->
+    <!-- ===================================================================== -->
+    <div class="bg-gradient-to-r from-slate-900 via-brand-900 to-slate-900 text-white border-b-2 border-amber-400 shadow-md relative z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-start sm:items-center gap-3">
+            <div class="p-2 rounded-xl bg-amber-400/20 border border-amber-400/40 text-amber-300 shrink-0 mt-0.5 sm:mt-0">
+                <i data-lucide="shield-alert" class="w-5 h-5"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-medium leading-relaxed text-slate-100">
+                <span class="inline-block px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-extrabold text-[11px] uppercase tracking-wider mr-1.5 align-middle">Aviso</span>
+                <strong>USO PRIVADO E EXCLUSIVO PARA O 6º ANO</strong> — Informamos que aqui <strong>não tem respostas de tarefas ou provas</strong>, apenas informações de cronograma, datas e conteúdos para estudo.
+            </p>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- HEADER / NAVBAR COM LOGO DINÂMICA & COMPARTILHAMENTO RÁPIDO           -->
+    <!-- ===================================================================== -->
+    <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand Logo (Customizável pelo ADM) -->
+            <div class="flex items-center gap-3.5">
+                <div id="header-logo-container" class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-slate-900 to-brand-600 flex items-center justify-center text-white shadow-lg shadow-brand-600/20 overflow-hidden border border-slate-200/20 shrink-0">
+                    <i data-lucide="graduation-cap" class="w-6 h-6 text-amber-300"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white leading-none">
+                            6º Ano <span class="text-brand-600 dark:text-brand-400">Euvira Info</span>
+                        </h1>
+                        <span class="hidden md:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-brand-100 text-brand-800 dark:bg-brand-900/50 dark:text-brand-300">
+                            Exclusivo 6º Ano
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-1">
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Cronograma Oficial, Resumos & Slides</p>
+                        <span id="sync-status" class="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Online
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Controls: Quick Share (WhatsApp & Instagram), Admin Badge & Theme -->
+            <div class="flex items-center gap-2">
+                <!-- WhatsApp Quick Share -->
+                <button onclick="sharePortalWhatsApp()" title="Compartilhar portal no WhatsApp"
+                    class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 transition cursor-pointer">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">WhatsApp</span>
+                </button>
+
+                <!-- Instagram Quick Share -->
+                <button onclick="sharePortalInstagram()" title="Copiar link e texto para Instagram Direct/Stories"
+                    class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-pink-50 hover:bg-pink-100 text-pink-700 dark:bg-pink-950/60 dark:hover:bg-pink-900/60 dark:text-pink-300 border border-pink-200 dark:border-pink-800/60 transition cursor-pointer">
+                    <i data-lucide="instagram" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Instagram</span>
+                </button>
+
+                <!-- Admin Badge (Visible ONLY after secret login) -->
+                <button id="admin-active-pill" onclick="openAdminDashboard()" class="hidden items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold bg-amber-400 text-slate-950 shadow-md hover:bg-amber-300 transition cursor-pointer">
+                    <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+                    <span>ADM</span>
+                </button>
+
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" aria-label="Alternar tema" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition focus:outline-none">
+                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- 2. CRONOGRAMA OFICIAL DE PROVAS (SEM HORÁRIO + FILTRO POR MATÉRIA)    -->
+    <!-- ===================================================================== -->
+    <section class="bg-gradient-to-b from-slate-100/90 via-white to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 pt-7 pb-7 border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-5">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60 text-xs font-bold mb-2">
+                        <span class="w-2 h-2 rounded-full bg-rose-600 animate-ping"></span>
+                        Cronograma Semanal • Atualização Automática (01:00)
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-2.5">
+                        <i data-lucide="calendar-check-2" class="w-7 h-7 text-brand-600 dark:text-brand-400 shrink-0"></i>
+                        <span>Cronograma Oficial de Provas — 6º Ano</span>
+                    </h2>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                        Escolha a matéria desejada abaixo para conferir a data exata e os conteúdos de estudo.
+                    </p>
+                </div>
+
+                <!-- Summary Pill -->
+                <div class="flex items-center gap-2 text-xs font-semibold shrink-0">
+                    <span class="px-3.5 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 shadow-sm">
+                        <strong id="exam-total-count" class="text-brand-600 dark:text-brand-400">0</strong> avaliações ativas na semana
+                    </span>
+                </div>
+            </div>
+
+            <!-- Filtro Rápido por Matéria no Topo do Cronograma -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-3 mb-4 no-scrollbar" id="exam-subject-pills">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Exams Board Grid (Sem Horário!) -->
+            <div id="exams-board-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Empty Exams State -->
+            <div id="exams-empty-state" class="hidden bg-white dark:bg-slate-900 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
+                <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="calendar-off" class="w-6 h-6"></i>
+                </div>
+                <p class="text-sm font-bold text-slate-700 dark:text-slate-300">
+                    Nenhuma prova ativa encontrada para este filtro.
+                </p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    O cronograma semanal reinicia automaticamente após sexta-feira (01:00 de sábado).
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- 3. MATERIAIS DE ESTUDO: RESUMOS, SLIDES E DEVERES & AVISOS            -->
+    <!-- ===================================================================== -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div class="mb-5">
+            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                Resumos, Slides & Deveres de Casa — 6º Ano
+            </h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+                Materiais organizados por disciplina para você revisar e acompanhar as atividades da semana.
+            </p>
+        </div>
+
+        <!-- Filters & Search Bar -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 space-y-4">
+            <!-- Category Tabs -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar" id="category-tabs">
+                <button data-category="Todos" class="cat-btn active px-4 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition bg-slate-900 dark:bg-brand-600 text-white shadow-sm">
+                    Todos (<span id="count-todos">0</span>)
+                </button>
+                <button data-category="Resumos" class="cat-btn px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center gap-2">
+                    <i data-lucide="book-open" class="w-4 h-4 text-blue-500"></i>
+                    <span>Resumos (<span id="count-resumos">0</span>)</span>
+                </button>
+                <button data-category="Slides" class="cat-btn px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center gap-2">
+                    <i data-lucide="presentation" class="w-4 h-4 text-amber-500"></i>
+                    <span>Slides (<span id="count-slides">0</span>)</span>
+                </button>
+                <button data-category="Deveres & Avisos" class="cat-btn px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center gap-2">
+                    <i data-lucide="bell-ring" class="w-4 h-4 text-emerald-500"></i>
+                    <span>Deveres & Avisos (<span id="count-deveres">0</span>)</span>
+                </button>
+            </div>
+
+            <!-- Search & Subject Filter -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+                <div class="md:col-span-8 relative">
+                    <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    <input type="text" id="search-input" placeholder="Buscar resumo, slide, dever ou assunto..." 
+                        class="w-full pl-11 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition">
+                </div>
+                <div class="md:col-span-4 relative">
+                    <i data-lucide="filter" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    <select id="subject-filter" class="w-full pl-10 pr-8 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white appearance-none cursor-pointer transition">
+                        <option value="Todas">Todas as Matérias (6º Ano)</option>
+                        <option value="Matemática">📐 Matemática</option>
+                        <option value="Português">📚 Português</option>
+                        <option value="Ciências">🔬 Ciências</option>
+                        <option value="História">🏛️ História</option>
+                        <option value="Geografia">🌍 Geografia</option>
+                        <option value="Inglês">🌎 Inglês</option>
+                        <option value="Artes">🎨 Artes</option>
+                        <option value="Ed. Física">⚽ Ed. Física</option>
+                        <option value="Informática">💻 Informática</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Status -->
+        <div class="flex items-center justify-between mb-4">
+            <p id="results-count" class="text-sm font-medium text-slate-500 dark:text-slate-400">Carregando conteúdos...</p>
+            <button id="clear-filters-btn" onclick="resetFilters()" class="hidden text-xs font-bold text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Limpar filtros
+            </button>
+        </div>
+
+        <!-- Materials Grid -->
+        <div id="materials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Populated via JS -->
+        </div>
+
+        <!-- Empty Materials State -->
+        <div id="empty-state" class="hidden flex-col items-center justify-center py-16 px-4 text-center bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
+            <div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="folder-search" class="w-8 h-8"></i>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900 dark:text-white">Nenhum conteúdo encontrado</h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400 max-w-md mt-1">
+                Não encontramos nenhum resumo, slide ou dever com os filtros selecionados.
+            </p>
+            <button onclick="resetFilters()" class="mt-5 px-5 py-2.5 rounded-xl bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition shadow-sm">
+                Mostrar todos os materiais
+            </button>
+        </div>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- FOOTER COM GATILHO SECRETO PARA O PAINEL ADM                          -->
+    <!-- ===================================================================== -->
+    <footer class="mt-12 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <!-- SECRET TRIGGER: Clicking 5 times here opens the ADM PIN prompt -->
+            <div id="secret-admin-trigger" class="flex items-center gap-2.5 select-none cursor-default">
+                <div class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-brand-600 dark:text-brand-400 transition-transform active:scale-90">
+                    <i data-lucide="shield" class="w-4 h-4"></i>
+                </div>
+                <span class="font-extrabold text-sm text-slate-800 dark:text-slate-200">6º Ano Euvira Info</span>
+            </div>
+
+            <p class="text-xs text-slate-500 dark:text-slate-400 text-center sm:text-right">
+                Uso privado e exclusivo do 6º Ano • Apenas cronogramas, datas de provas e conteúdos de estudo.
+            </p>
+        </div>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 1: VISUALIZAÇÃO COMPLETA (PROVAS / RESUMOS / SLIDES / DEVERES)  -->
+    <!-- ===================================================================== -->
+    <div id="detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <!-- Header -->
+            <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-start justify-between gap-4">
+                <div>
+                    <div class="flex flex-wrap items-center gap-2 mb-2" id="modal-badges"></div>
+                    <h3 id="modal-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-snug">
+                        Título
+                    </h3>
+                </div>
+                <button onclick="closeDetailModal()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-6 overflow-y-auto space-y-5">
+                <div class="flex flex-wrap items-center justify-between gap-3 text-sm text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/70 px-4 py-3 rounded-xl border border-slate-200/70 dark:border-slate-700/70">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="calendar" class="w-4 h-4 text-brand-600 dark:text-brand-400"></i>
+                        <span>Data: <strong id="modal-date">--/--/----</strong> (<span id="modal-weekday" class="capitalize">---</span>)</span>
+                    </div>
+                    <span id="modal-urgency-badge"></span>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Conteúdo de Estudo / Orientações</h4>
+                    <div id="modal-content" class="text-slate-700 dark:text-slate-200 text-sm sm:text-base leading-relaxed whitespace-pre-line bg-slate-50/60 dark:bg-slate-800/30 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                    </div>
+                </div>
+
+                <!-- Botão Direto para Slide / Resumo Vinculado ou Anexo -->
+                <div id="modal-link-box" class="hidden pt-1">
+                    <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" 
+                       class="w-full flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-lg shadow-brand-600/25 transition">
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                        <span id="modal-link-label">Abrir Slide / Material Vinculado</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer com Compartilhamento do Item -->
+            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex flex-wrap justify-between items-center gap-2">
+                <div class="flex items-center gap-2">
+                    <button onclick="shareCurrentItemWhatsApp()" class="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-950/60 hover:bg-emerald-200/80 px-3 py-2 rounded-xl flex items-center gap-1.5 transition">
+                        <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> WhatsApp
+                    </button>
+                    <button onclick="shareCurrentItemInstagram()" class="text-xs font-bold text-pink-700 dark:text-pink-300 bg-pink-100/80 dark:bg-pink-950/60 hover:bg-pink-200/80 px-3 py-2 rounded-xl flex items-center gap-1.5 transition">
+                        <i data-lucide="instagram" class="w-3.5 h-3.5"></i> Instagram
+                    </button>
+                    <button onclick="copyModalText()" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-brand-600 flex items-center gap-1.5 py-2 px-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-700/60 transition">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar
+                    </button>
+                </div>
+                <button onclick="closeDetailModal()" class="px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-700 text-white text-sm font-bold hover:opacity-90 transition">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 2: LOGIN SECRETO DO PAINEL ADM                                  -->
+    <!-- ===================================================================== -->
+    <div id="pin-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 text-center">
+            <div class="w-14 h-14 rounded-2xl bg-slate-900 dark:bg-brand-900/50 text-amber-400 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <i data-lucide="key-round" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Acesso Restrito ADM</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-5">
+                Área exclusiva da administração do <strong>6º Ano Euvira Info</strong>.
+            </p>
+
+            <form id="pin-form" class="space-y-4">
+                <div>
+                    <input type="password" id="pin-input" placeholder="Digite a senha ADM..." autocomplete="off"
+                        class="w-full px-4 py-3 text-center tracking-widest font-bold rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white">
+                    <p id="pin-error" class="hidden text-xs text-rose-500 font-semibold mt-2">Senha incorreta. Tente novamente.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button type="button" onclick="closePinModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 py-2.5 rounded-xl bg-brand-600 text-white text-sm font-bold hover:bg-brand-700 transition shadow-md shadow-brand-600/20">
+                        Acessar Painel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 3: PAINEL ADM COMPLETO (6 ABAS COM IA ORGANIZADORA & LIXEIRA)   -->
+    <!-- ===================================================================== -->
+    <div id="admin-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-2 sm:p-4 bg-slate-950/85 backdrop-blur-md">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-6xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+            
+            <!-- Admin Header -->
+            <div class="px-5 sm:px-6 py-4 bg-slate-900 text-white flex items-center justify-between gap-4 border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 rounded-xl bg-amber-400 text-slate-950">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-base sm:text-lg leading-tight">Painel ADM — 6º Ano Euvira Info</h3>
+                        <p class="text-xs text-slate-400">Sincronizado na nuvem • Todos os alunos veem as mudanças em tempo real</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="logoutAdmin()" class="px-3 py-2 rounded-xl bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 text-xs font-bold transition flex items-center gap-1.5">
+                        <i data-lucide="log-out" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Sair ADM</span>
+                    </button>
+                    <button onclick="closeAdminDashboard()" class="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white transition">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Navigation Tabs (6 Tabs) -->
+            <div class="px-4 sm:px-6 pt-3 bg-slate-100 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+                <button onclick="switchAdminTab('ia')" data-admin-tab="ia" class="admin-tab-btn px-4 py-2.5 rounded-t-xl text-xs sm:text-sm font-extrabold whitespace-nowrap transition flex items-center gap-2 bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 border-t-2 border-brand-600">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i>
+                    <span>IA Organizadora</span>
+                </button>
+                <button onclick="switchAdminTab('provas')" data-admin-tab="provas" class="admin-tab-btn px-4 py-2.5 rounded-t-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                    <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                    <span>Provas (Cronograma)</span>
+                </button>
+                <button onclick="switchAdminTab('resumos')" data-admin-tab="resumos" class="admin-tab-btn px-4 py-2.5 rounded-t-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span>Resumos</span>
+                </button>
+                <button onclick="switchAdminTab('slides')" data-admin-tab="slides" class="admin-tab-btn px-4 py-2.5 rounded-t-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                    <i data-lucide="presentation" class="w-4 h-4"></i>
+                    <span>Slides</span>
+                </button>
+                <button onclick="switchAdminTab('deveres')" data-admin-tab="deveres" class="admin-tab-btn px-4 py-2.5 rounded-t-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                    <i data-lucide="bell-ring" class="w-4 h-4"></i>
+                    <span>Deveres & Avisos</span>
+                </button>
+                <button onclick="switchAdminTab('backup')" data-admin-tab="backup" class="admin-tab-btn px-4 py-2.5 rounded-t-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                    <i data-lucide="archive" class="w-4 h-4"></i>
+                    <span>Lixeira, Backup & Config</span>
+                </button>
+            </div>
+
+            <!-- Admin Tab Content Area -->
+            <div class="p-4 sm:p-6 overflow-y-auto flex-1">
+                
+                <!-- ========================================================= -->
+                <!-- TAB 1: IA ORGANIZADORA (DESTAQUE)                         -->
+                <!-- ========================================================= -->
+                <div id="admin-panel-ia" class="admin-panel grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Left: Input Prompt -->
+                    <div class="lg:col-span-5 bg-gradient-to-br from-brand-50 to-slate-50 dark:from-brand-950/40 dark:to-slate-900 p-5 rounded-2xl border border-brand-200 dark:border-brand-800/60 h-fit space-y-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="p-2.5 rounded-xl bg-brand-600 text-white shadow-md">
+                                <i data-lucide="sparkles" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-slate-900 dark:text-white">IA Organizadora da Semana</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Cole ou digite o recado bagunçado que a IA separa tudo!</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                                Digite as informações da semana:
+                            </label>
+                            <textarea id="ai-raw-input" rows="6" placeholder="Exemplo: segunda dia 25 prova de matematica sobre fracoes e decimais, quarta dia 27 prova de historia egito antigo e mesopotamia, dever de ciencias pag 30 para quinta sobre camadas da terra..."
+                                class="w-full px-3.5 py-3 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-sm dark:text-white focus:ring-2 focus:ring-brand-500 focus:outline-none"></textarea>
+                        </div>
+
+                        <button type="button" id="ai-organize-btn" onclick="organizeWithAI()"
+                            class="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-sm shadow-lg shadow-brand-600/25 transition flex items-center justify-center gap-2">
+                            <i data-lucide="wand-2" class="w-4 h-4"></i>
+                            <span>Organizar com IA</span>
+                        </button>
+
+                        <div class="p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/70 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <strong>Como funciona:</strong> A IA identifica automaticamente o que é <strong>Prova</strong> (colocando no Cronograma sem horário) e o que é <strong>Dever/Aviso</strong>, preenchendo matéria, data e conteúdo de estudo.
+                        </div>
+                    </div>
+
+                    <!-- Right: AI Preview & Direct Publish -->
+                    <div class="lg:col-span-7 flex flex-col justify-between bg-slate-50 dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-200 dark:border-slate-800">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                    <i data-lucide="check-square" class="w-5 h-5 text-emerald-500"></i>
+                                    <span>Prévia Organizada pela IA</span>
+                                </h4>
+                                <span id="ai-preview-count" class="text-xs font-bold text-slate-500">Aguardando texto...</span>
+                            </div>
+
+                            <div id="ai-preview-container" class="space-y-3 max-h-[380px] overflow-y-auto pr-1">
+                                <div class="text-center py-12 px-4 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl">
+                                    <i data-lucide="bot" class="w-8 h-8 text-slate-400 mx-auto mb-2"></i>
+                                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400">
+                                        Escreva os recados ao lado e clique em <strong>"Organizar com IA"</strong> para revisar e publicar tudo de uma vez!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ai-publish-bar" class="hidden pt-4 mt-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-end gap-3">
+                            <button type="button" onclick="clearAIPreview()" class="px-4 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:opacity-90">
+                                Descartar
+                            </button>
+                            <button type="button" onclick="publishAIPreviewItems()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-extrabold shadow-lg shadow-emerald-600/20 flex items-center gap-2">
+                                <i data-lucide="cloud-upload" class="w-4 h-4"></i>
+                                <span>Publicar Tudo no Portal</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB 2: PROVAS (CRONOGRAMA - SEM HORÁRIO)                  -->
+                <!-- ========================================================= -->
+                <div id="admin-panel-provas" class="admin-panel hidden grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-5 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 h-fit">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 id="exam-form-title" class="font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                <i data-lucide="plus-circle" class="w-5 h-5 text-rose-600"></i>
+                                <span>Adicionar Prova ao Cronograma</span>
+                            </h4>
+                            <button type="button" id="exam-cancel-edit" onclick="resetExamForm()" class="hidden text-xs font-bold text-rose-500 hover:underline">
+                                Cancelar
+                            </button>
+                        </div>
+
+                        <form id="exam-form" class="space-y-3.5">
+                            <input type="hidden" id="exam-edit-id">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Matéria *</label>
+                                    <select id="exam-subject" required class="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-medium dark:text-white">
+                                        <option value="Matemática">Matemática</option>
+                                        <option value="Português">Português</option>
+                                        <option value="Ciências">Ciências</option>
+                                        <option value="História">História</option>
+                                        <option value="Geografia">Geografia</option>
+                                        <option value="Inglês">Inglês</option>
+                                        <option value="Artes">Artes</option>
+                                        <option value="Ed. Física">Ed. Física</option>
+                                        <option value="Informática">Informática</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Data da Prova *</label>
+                                    <input type="date" id="exam-date" required class="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Título / Tipo de Avaliação *</label>
+                                <input type="text" id="exam-title" required placeholder="Ex: Prova Mensal — Frações e Decimais" class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Conteúdo de Estudo *</label>
+                                <textarea id="exam-content" rows="4" required placeholder="Liste os capítulos, páginas do livro e temas que vão cair..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Link de Slide ou Resumo Vinculado (Opcional)</label>
+                                <input type="url" id="exam-link" placeholder="https://docs.google.com/presentation/..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                            </div>
+
+                            <button type="submit" id="exam-submit-btn" class="w-full py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm shadow-lg shadow-rose-600/20 transition flex items-center justify-center gap-2">
+                                <i data-lucide="calendar-plus" class="w-4 h-4"></i>
+                                <span>Salvar no Cronograma</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-7">
+                        <h4 class="font-extrabold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                            <i data-lucide="list-checks" class="w-5 h-5 text-rose-600"></i>
+                            <span>Provas Ativas no Cronograma (<span id="admin-exams-count">0</span>)</span>
+                        </h4>
+                        <div id="admin-exams-list" class="space-y-2.5 max-h-[480px] overflow-y-auto pr-1"></div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB 3: RESUMOS                                            -->
+                <!-- ========================================================= -->
+                <div id="admin-panel-resumos" class="admin-panel hidden grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-5 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 h-fit">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 id="resumo-form-title" class="font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                <i data-lucide="plus-circle" class="w-5 h-5 text-blue-600"></i>
+                                <span>Adicionar Novo Resumo</span>
+                            </h4>
+                            <button type="button" id="resumo-cancel-edit" onclick="resetMaterialForm('Resumos')" class="hidden text-xs font-bold text-rose-500 hover:underline">
+                                Cancelar
+                            </button>
+                        </div>
+
+                        <form id="form-Resumos" onsubmit="handleMaterialSubmit(event, 'Resumos')" class="space-y-3.5">
+                            <input type="hidden" id="edit-id-Resumos">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Título do Resumo *</label>
+                                <input type="text" id="title-Resumos" required placeholder="Ex: Resumo de Frações e Decimais" class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Matéria *</label>
+                                    <select id="subject-Resumos" required class="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                                        <option value="Português">Português</option>
+                                        <option value="Matemática">Matemática</option>
+                                        <option value="Ciências">Ciências</option>
+                                        <option value="História">História</option>
+                                        <option value="Geografia">Geografia</option>
+                                        <option value="Inglês">Inglês</option>
+                                        <option value="Artes">Artes</option>
+                                        <option value="Ed. Física">Ed. Física</option>
+                                        <option value="Informática">Informática</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Data *</label>
+                                    <input type="date" id="date-Resumos" required class="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Conteúdo Completo do Resumo *</label>
+                                <textarea id="content-Resumos" rows="5" required placeholder="Escreva os tópicos principais e explicações para estudo..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Link Complementar (Opcional)</label>
+                                <input type="url" id="link-Resumos" placeholder="https://..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                            </div>
+
+                            <button type="submit" id="btn-Resumos" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-lg shadow-blue-600/20 transition flex items-center justify-center gap-2">
+                                <i data-lucide="save" class="w-4 h-4"></i>
+                                <span>Publicar Resumo</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-7">
+                        <h4 class="font-extrabold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                            <i data-lucide="book-open" class="w-5 h-5 text-blue-600"></i>
+                            <span>Resumos Publicados (<span id="admin-count-Resumos">0</span>)</span>
+                        </h4>
+                        <div id="admin-list-Resumos" class="space-y-2.5 max-h-[480px] overflow-y-auto pr-1"></div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB 4: SLIDES (LINK OU UPLOAD DE ARQUIVO PEQUENO)         -->
+                <!-- ========================================================= -->
+                <div id="admin-panel-slides" class="admin-panel hidden grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-5 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 h-fit">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 id="slide-form-title" class="font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                <i data-lucide="plus-circle" class="w-5 h-5 text-amber-500"></i>
+                                <span>Adicionar Novo Slide</span>
+                            </h4>
+                            <button type="button" id="slide-cancel-edit" onclick="resetMaterialForm('Slides')" class="hidden text-xs font-bold text-rose-500 hover:underline">
+                                Cancelar
+                            </button>
+                        </div>
+
+                        <form id="form-Slides" onsubmit="handleMaterialSubmit(event, 'Slides')" class="space-y-3.5">
+                            <input type="hidden" id="edit-id-Slides">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Título do Slide / Apresentação *</label>
+                                <input type="text" id="title-Slides" required placeholder="Ex: Slides - Camadas da Terra" class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Matéria *</label>
+                                    <select id="subject-Slides" required class="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                                        <option value="Ciências">Ciências</option>
+                                        <option value="História">História</option>
+                                        <option value="Geografia">Geografia</option>
+                                        <option value="Português">Português</option>
+                                        <option value="Matemática">Matemática</option>
+                                        <option value="Inglês">Inglês</option>
+                                        <option value="Artes">Artes</option>
+                                        <option value="Ed. Física">Ed. Física</option>
+                                        <option value="Informática">Informática</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Data *</label>
+                                    <input type="date" id="date-Slides" required class="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Link do Slide (Google Slides, Canva, Drive)</label>
+                                <input type="url" id="link-Slides" placeholder="https://docs.google.com/presentation/..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Ou anexar arquivo PDF / Imagem (máx. 600KB)</label>
+                                <input type="file" id="file-Slides" accept=".pdf,image/*" class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-amber-500 file:text-slate-950 hover:file:bg-amber-400 cursor-pointer">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Descrição / Tópicos dos Slides *</label>
+                                <textarea id="content-Slides" rows="3" required placeholder="Descreva os assuntos apresentados nos slides..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white"></textarea>
+                            </div>
+
+                            <button type="submit" id="btn-Slides" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-sm shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2">
+                                <i data-lucide="presentation" class="w-4 h-4"></i>
+                                <span>Publicar Slide</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-7">
+                        <h4 class="font-extrabold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                            <i data-lucide="presentation" class="w-5 h-5 text-amber-500"></i>
+                            <span>Slides Publicados (<span id="admin-count-Slides">0</span>)</span>
+                        </h4>
+                        <div id="admin-list-Slides" class="space-y-2.5 max-h-[480px] overflow-y-auto pr-1"></div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB 5: DEVERES & AVISOS                                   -->
+                <!-- ========================================================= -->
+                <div id="admin-panel-deveres" class="admin-panel hidden grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-5 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 h-fit">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 id="dever-form-title" class="font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                <i data-lucide="plus-circle" class="w-5 h-5 text-emerald-600"></i>
+                                <span>Adicionar Dever / Aviso</span>
+                            </h4>
+                            <button type="button" id="dever-cancel-edit" onclick="resetMaterialForm('Deveres & Avisos')" class="hidden text-xs font-bold text-rose-500 hover:underline">
+                                Cancelar
+                            </button>
+                        </div>
+
+                        <form id="form-Deveres" onsubmit="handleMaterialSubmit(event, 'Deveres & Avisos')" class="space-y-3.5">
+                            <input type="hidden" id="edit-id-Deveres">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Título do Dever ou Aviso *</label>
+                                <input type="text" id="title-Deveres" required placeholder="Ex: Páginas do Livro para Estudar / Recado" class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Matéria *</label>
+                                    <select id="subject-Deveres" required class="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                                        <option value="Português">Português</option>
+                                        <option value="Matemática">Matemática</option>
+                                        <option value="Ciências">Ciências</option>
+                                        <option value="História">História</option>
+                                        <option value="Geografia">Geografia</option>
+                                        <option value="Inglês">Inglês</option>
+                                        <option value="Artes">Artes</option>
+                                        <option value="Ed. Física">Ed. Física</option>
+                                        <option value="Informática">Informática</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Data *</label>
+                                    <input type="date" id="date-Deveres" required class="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Orientações (Sem respostas) *</label>
+                                <textarea id="content-Deveres" rows="4" required placeholder="Informe as páginas do livro ou instruções para a turma..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm dark:text-white"></textarea>
+                            </div>
+
+                            <button type="submit" id="btn-Deveres" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-lg shadow-emerald-600/20 transition flex items-center justify-center gap-2">
+                                <i data-lucide="bell-plus" class="w-4 h-4"></i>
+                                <span>Publicar Dever / Aviso</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-7">
+                        <h4 class="font-extrabold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                            <i data-lucide="bell-ring" class="w-5 h-5 text-emerald-600"></i>
+                            <span>Deveres e Avisos Publicados (<span id="admin-count-Deveres">0</span>)</span>
+                        </h4>
+                        <div id="admin-list-Deveres" class="space-y-2.5 max-h-[480px] overflow-y-auto pr-1"></div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB 6: LIXEIRA, HISTÓRICO DE BACKUP & CONFIGURAÇÕES       -->
+                <!-- ========================================================= -->
+                <div id="admin-panel-backup" class="admin-panel hidden grid-cols-1 lg:grid-cols-12 gap-6">
+                    
+                    <!-- Left: Lixeira & Histórico de Backup Semanal -->
+                    <div class="lg:col-span-7 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <i data-lucide="archive-restore" class="w-5 h-5 text-amber-500"></i>
+                                        <span>Lixeira & Histórico de Backup (<span id="trash-count">0</span>)</span>
+                                    </h4>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        Itens apagados ou arquivados automaticamente na virada de sexta-feira (01:00).
+                                    </p>
+                                </div>
+
+                                <button type="button" onclick="simulateFridayReset()" title="Testar o reinício automático de sexta-feira agora"
+                                    class="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 dark:bg-amber-950/60 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 text-xs font-bold border border-amber-300 dark:border-amber-800 transition flex items-center gap-1.5">
+                                    <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i> Simular Virada de Sexta
+                                </button>
+                            </div>
+
+                            <div id="trash-list" class="space-y-2.5 max-h-[420px] overflow-y-auto pr-1 mt-3">
+                                <!-- Populated via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Logo & Senha ADM -->
+                    <div class="lg:col-span-5 space-y-5">
+                        <!-- Logo Card -->
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3.5">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 rounded-xl bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400">
+                                    <i data-lucide="image" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-sm text-slate-900 dark:text-white">Alterar Logo do Portal</h4>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Atualiza para toda a turma na nuvem.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                                <div id="config-logo-preview" class="w-12 h-12 rounded-xl bg-gradient-to-tr from-slate-900 to-brand-600 flex items-center justify-center text-white overflow-hidden shrink-0">
+                                    <i data-lucide="graduation-cap" class="w-6 h-6 text-amber-300"></i>
+                                </div>
+                                <div class="text-xs">
+                                    <p class="font-bold text-slate-800 dark:text-slate-200">Logo Atual do 6º Ano</p>
+                                    <button type="button" onclick="resetLogoDefault()" class="text-rose-500 font-bold hover:underline mt-0.5">Restaurar padrão</button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Enviar do aparelho (máx. 500KB)</label>
+                                <input type="file" id="logo-file-input" accept="image/*" class="block w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-brand-600 file:text-white hover:file:bg-brand-700 cursor-pointer">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Ou colar URL da imagem</label>
+                                <div class="flex gap-2">
+                                    <input type="url" id="logo-url-input" placeholder="https://..." class="flex-1 px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs dark:text-white">
+                                    <button type="button" onclick="applyLogoUrl()" class="px-3.5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold">Aplicar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Password Card -->
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400">
+                                    <i data-lucide="lock" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-sm text-slate-900 dark:text-white">Alterar Senha ADM</h4>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Atalho: 5 cliques no rodapé ou Ctrl+Shift+A.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <input type="text" id="new-pin-input" placeholder="Nova senha (mín. 4 dígitos)..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs dark:text-white">
+                                <button type="button" onclick="updateAdminPassword()" class="px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-brand-600 text-white text-xs font-bold hover:opacity-90">
+                                    Salvar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- FIREBASE REALTIME + GEMINI AI + CYCLE AUTOMATION SCRIPT               -->
+    <!-- ===================================================================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // =================================================================
+        // 1. FIREBASE INITIALIZATION & STRICT PATHS
+        // =================================================================
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'euvira-6ano-portal';
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+        let useCloud = false;
+
+        try {
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                useCloud = true;
+            }
+        } catch (err) {
+            useCloud = false;
+        }
+
+        const getPublicCol = (colName) => collection(db, 'artifacts', appId, 'public', 'data', colName);
+        const getPublicDoc = (colName, docId) => doc(db, 'artifacts', appId, 'public', 'data', colName, docId);
+
+        // =================================================================
+        // 2. APPLICATION STATE & DEFAULT SEED DATA
+        // =================================================================
+        let exams = [];
+        let materials = [];
+        let trashItems = [];
+        let portalConfig = {
+            logoUrl: '',
+            adminPass: 'euvira6',
+            lastFridayResetKey: ''
+        };
+
+        let activeExamSubject = 'Todas';
+        let activeCategory = 'Todos';
+        let activeSubject = 'Todas';
+        let searchQuery = '';
+        let isAdminLoggedIn = false;
+        let currentModalShareData = { title: '', text: '', link: '' };
+        let aiGeneratedItems = [];
+        let isCheckingCycle = false;
+
+        const SUBJECT_LIST = [
+            'Todas', 'Matemática', 'Português', 'Ciências', 'História',
+            'Geografia', 'Inglês', 'Artes', 'Ed. Física', 'Informática'
+        ];
+
+        const getOffsetDateStr = (days) => {
+            const d = new Date();
+            d.setDate(d.getDate() + days);
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        };
+
+        const SEED_EXAMS = [
+            {
+                subject: 'Matemática',
+                date: getOffsetDateStr(1),
+                title: 'Avaliação Mensal — Frações e Números Decimais',
+                content: '• Operações com números naturais e expressões numéricas\n• Frações: leitura, equivalência e comparação\n• Números decimais no cotidiano\n• Revisar capítulos 3 e 4 do livro e anotações do caderno.',
+                link: 'https://docs.google.com/presentation/'
+            },
+            {
+                subject: 'Ciências',
+                date: getOffsetDateStr(2),
+                title: 'Prova de Ciências — Estrutura da Terra e Rochas',
+                content: '• Camadas internas da Terra (Crosta, Manto e Núcleo)\n• Tipos de rochas: magmáticas, sedimentares e metamórficas\n• Camadas da atmosfera\n• Consultar os slides publicados na aba Slides.',
+                link: 'https://docs.google.com/presentation/'
+            },
+            {
+                subject: 'História',
+                date: getOffsetDateStr(4),
+                title: 'Avaliação — Mesopotâmia e Egito Antigo',
+                content: '• Crescente Fértil e importância dos rios Tigre, Eufrates e Nilo\n• Escrita cuneiforme e hieróglifos\n• Organização social no Egito Antigo (Págs. 40 a 65).',
+                link: ''
+            }
+        ];
+
+        const SEED_MATERIALS = [
+            {
+                category: 'Resumos',
+                subject: 'Matemática',
+                title: 'Resumo de Estudo: Frações e Números Decimais',
+                date: getOffsetDateStr(0),
+                content: '1. O que é uma fração?\nÉ a representação de uma ou mais partes iguais de um inteiro dividido.\n• Numerador (em cima): quantas partes foram consideradas.\n• Denominador (em baixo): em quantas partes iguais o inteiro foi dividido.\n\n2. Frações Equivalentes:\nSão frações diferentes que representam a mesma quantidade. Multiplique ou divida o numerador e o denominador pelo mesmo número (Ex: 1/2 = 2/4 = 3/6).\n\n3. Transformando Fração em Decimal:\nDivida o numerador pelo denominador (Ex: 1/4 = 0,25).',
+                link: ''
+            },
+            {
+                category: 'Slides',
+                subject: 'Ciências',
+                title: 'Slides da Aula: Camadas da Terra e Tipos de Rochas',
+                date: getOffsetDateStr(0),
+                content: 'Apresentação completa exibida em sala de aula sobre a estrutura do planeta Terra e classificação das rochas. Material essencial para estudar para a prova.',
+                link: 'https://docs.google.com/presentation/'
+            },
+            {
+                category: 'Deveres & Avisos',
+                subject: 'Português',
+                title: 'Leitura e Exercícios no Livro (Págs. 88 a 91)',
+                date: getOffsetDateStr(1),
+                content: 'Aviso para o 6º Ano: ler o texto das páginas 88 e 89 e responder no caderno as questões sobre Substantivos e Adjetivos das páginas 90 e 91. (Lembrete: aqui não postamos respostas, apenas as orientações!).',
+                link: ''
+            }
+        ];
+
+        // =================================================================
+        // 3. DATE, 01:00 AM ROLLOVER & FRIDAY WEEKLY RESET AUTOMATION
+        // =================================================================
+        function parseLocalYMD(dateStr) {
+            if (!dateStr) return null;
+            const [y, m, d] = dateStr.split('-').map(Number);
+            return new Date(y, m - 1, d, 0, 0, 0, 0);
+        }
+
+        function formatDateBR(dateStr) {
+            if (!dateStr) return '--/--';
+            const [y, m, d] = dateStr.split('-');
+            return `${d}/${m}/${y}`;
+        }
+
+        function getWeekdayBR(dateStr) {
+            const dt = parseLocalYMD(dateStr);
+            if (!dt) return '';
+            const days = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+            return days[dt.getDay()];
+        }
+
+        /**
+         * Regra de 24h (virada à 01:00 da madrugada do dia seguinte):
+         * Uma prova marcada para o dia D só expira quando o relógio passa de (D + 1 dia) às 01:00:00.
+         */
+        function isExamExpiredBy01AM(examDateStr, now = new Date()) {
+            const examDay = parseLocalYMD(examDateStr);
+            if (!examDay) return false;
+            const expirationMoment = new Date(
+                examDay.getFullYear(),
+                examDay.getMonth(),
+                examDay.getDate() + 1,
+                1, 0, 0, 0
+            );
+            return now >= expirationMoment;
+        }
+
+        /**
+         * Calcula o identificador do ciclo semanal de sexta-feira:
+         * A semana reinicia na virada de sexta-feira para sábado às 01:00 da madrugada.
+         */
+        function getCurrentFridayCycleKey(now = new Date()) {
+            // Subtrai 1 hora para que sábado 00:30 ainda pertença ao ciclo de sexta-feira
+            const shifted = new Date(now.getTime() - 60 * 60 * 1000);
+            const dayOfWeek = shifted.getDay(); // 0=Dom ... 5=Sex, 6=Sab
+            // Quantos dias se passaram desde o último sábado (início da nova semana pós-sexta)
+            const daysSinceSaturday = (dayOfWeek + 1) % 7;
+            const cycleStartSat = new Date(shifted.getFullYear(), shifted.getMonth(), shifted.getDate() - daysSinceSaturday);
+            return `${cycleStartSat.getFullYear()}-${String(cycleStartSat.getMonth() + 1).padStart(2, '0')}-${String(cycleStartSat.getDate()).padStart(2, '0')}`;
+        }
+
+        function getExamStatusBadge(examDateStr) {
+            const now = new Date();
+            const today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const target = parseLocalYMD(examDateStr);
+            if (!target) return null;
+
+            if (isExamExpiredBy01AM(examDateStr, now)) {
+                return { label: 'Encerrada', cls: 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400', expired: true };
+            }
+
+            const diffDays = Math.round((target - today0) / (1000 * 60 * 60 * 24));
+            if (diffDays <= 0) {
+                return { label: 'É HOJE!', cls: 'bg-rose-600 text-white animate-pulse', expired: false };
+            }
+            if (diffDays === 1) {
+                return { label: 'AMANHÃ', cls: 'bg-amber-400 text-slate-950', expired: false };
+            }
+            return { label: `Em ${diffDays} dias`, cls: 'bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-200', expired: false };
+        }
+
+        /**
+         * Verifica automaticamente:
+         * 1) Se chegou a virada da sexta-feira (sábado >= 01:00): move TODAS as provas da semana para Lixeira/Backup.
+         * 2) Se alguma prova individual já passou de 01:00 da madrugada do dia seguinte: marca/arquiva.
+         */
+        async function runAutomatedCycleCheck(forceFridayReset = false) {
+            if (isCheckingCycle) return;
+            if (useCloud && !currentUser) return;
+            isCheckingCycle = true;
+
+            try {
+                const now = new Date();
+                const currentCycleKey = getCurrentFridayCycleKey(now);
+
+                // Inicializa a chave do ciclo se ainda não existir
+                if (!portalConfig.lastFridayResetKey && !forceFridayReset) {
+                    portalConfig.lastFridayResetKey = currentCycleKey;
+                    await saveConfigToStore({ lastFridayResetKey: currentCycleKey });
+                    isCheckingCycle = false;
+                    return;
+                }
+
+                const shouldFridayReset = forceFridayReset || (portalConfig.lastFridayResetKey !== currentCycleKey);
+
+                if (shouldFridayReset && exams.length > 0) {
+                    const examsToArchive = [...exams];
+                    for (const ex of examsToArchive) {
+                        await moveItemToTrash({
+                            originalType: 'Prova',
+                            subject: ex.subject,
+                            title: ex.title || `Prova de ${ex.subject}`,
+                            date: ex.date,
+                            content: ex.content,
+                            link: ex.link || '',
+                            reason: 'Reinício Semanal de Sexta-feira (01:00)'
+                        });
+                        await removeExamFromStore(ex.id);
+                    }
+                    portalConfig.lastFridayResetKey = currentCycleKey;
+                    await saveConfigToStore({ lastFridayResetKey: currentCycleKey });
+                    if (forceFridayReset) {
+                        showToast('Virada de sexta-feira executada! Provas movidas para Lixeira/Backup.');
+                    }
+                } else if (shouldFridayReset) {
+                    portalConfig.lastFridayResetKey = currentCycleKey;
+                    await saveConfigToStore({ lastFridayResetKey: currentCycleKey });
+                }
+            } finally {
+                isCheckingCycle = false;
+            }
+        }
+
+        // Checa automaticamente a cada 60 segundos (para virar exatamente às 01:00 da madrugada)
+        setInterval(() => {
+            runAutomatedCycleCheck(false);
+            renderAll();
+        }, 60000);
+
+        // =================================================================
+        // 4. DATA PERSISTENCE LAYER (FIRESTORE REALTIME + FALLBACK)
+        // =================================================================
+        async function initStorageAndListeners() {
+            if (useCloud) {
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    currentUser = auth.currentUser;
+                } catch (e) {
+                    useCloud = false;
+                }
+            }
+
+            if (useCloud && currentUser) {
+                // Config listener
+                onSnapshot(getPublicDoc('settings', 'portalConfig'), async (snap) => {
+                    if (snap.exists()) {
+                        portalConfig = { ...portalConfig, ...snap.data() };
+                    } else {
+                        portalConfig.lastFridayResetKey = getCurrentFridayCycleKey();
+                        await setDoc(getPublicDoc('settings', 'portalConfig'), portalConfig);
+                    }
+                    applyLogoToUI();
+                }, () => {});
+
+                // Exams listener
+                let seededExamsChecked = false;
+                onSnapshot(getPublicCol('exams'), async (snapshot) => {
+                    if (snapshot.empty && !seededExamsChecked) {
+                        seededExamsChecked = true;
+                        for (const item of SEED_EXAMS) {
+                            await addDoc(getPublicCol('exams'), item);
+                        }
+                        return;
+                    }
+                    seededExamsChecked = true;
+                    exams = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                    await runAutomatedCycleCheck(false);
+                    renderAll();
+                }, () => {});
+
+                // Materials listener
+                let seededMatChecked = false;
+                onSnapshot(getPublicCol('materials'), async (snapshot) => {
+                    if (snapshot.empty && !seededMatChecked) {
+                        seededMatChecked = true;
+                        for (const item of SEED_MATERIALS) {
+                            await addDoc(getPublicCol('materials'), item);
+                        }
+                        return;
+                    }
+                    seededMatChecked = true;
+                    materials = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                    renderAll();
+                }, () => {});
+
+                // Trash / Backup listener
+                onSnapshot(getPublicCol('trash'), (snapshot) => {
+                    trashItems = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                    if (isAdminLoggedIn) renderTrashList();
+                }, () => {});
+
+            } else {
+                // Local fallback if environment doesn't inject Firebase config
+                document.getElementById('sync-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Local`;
+                exams = JSON.parse(localStorage.getItem('ev6_exams') || 'null') || SEED_EXAMS.map((e, i) => ({ id: 'ex-' + i, ...e }));
+                materials = JSON.parse(localStorage.getItem('ev6_materials') || 'null') || SEED_MATERIALS.map((m, i) => ({ id: 'mat-' + i, ...m }));
+                trashItems = JSON.parse(localStorage.getItem('ev6_trash') || '[]');
+                portalConfig = JSON.parse(localStorage.getItem('ev6_config') || 'null') || portalConfig;
+                applyLogoToUI();
+                await runAutomatedCycleCheck(false);
+                renderAll();
+            }
+        }
+
+        function syncLocalFallback() {
+            if (!useCloud) {
+                localStorage.setItem('ev6_exams', JSON.stringify(exams));
+                localStorage.setItem('ev6_materials', JSON.stringify(materials));
+                localStorage.setItem('ev6_trash', JSON.stringify(trashItems));
+                localStorage.setItem('ev6_config', JSON.stringify(portalConfig));
+                renderAll();
+            }
+        }
+
+        async function saveConfigToStore(partial) {
+            portalConfig = { ...portalConfig, ...partial };
+            if (useCloud && currentUser) {
+                await setDoc(getPublicDoc('settings', 'portalConfig'), portalConfig, { merge: true });
+            } else {
+                syncLocalFallback();
+            }
+        }
+
+        async function addExamToStore(data) {
+            if (useCloud && currentUser) {
+                await addDoc(getPublicCol('exams'), data);
+            } else {
+                exams.push({ id: 'ex-' + Date.now() + Math.random().toString(36).slice(2, 6), ...data });
+                syncLocalFallback();
+            }
+        }
+
+        async function updateExamInStore(id, data) {
+            if (useCloud && currentUser) {
+                await updateDoc(getPublicDoc('exams', id), data);
+            } else {
+                const idx = exams.findIndex(e => e.id === id);
+                if (idx !== -1) exams[idx] = { id, ...data };
+                syncLocalFallback();
+            }
+        }
+
+        async function removeExamFromStore(id) {
+            if (useCloud && currentUser) {
+                await deleteDoc(getPublicDoc('exams', id));
+            } else {
+                exams = exams.filter(e => e.id !== id);
+                syncLocalFallback();
+            }
+        }
+
+        async function addMaterialToStore(data) {
+            if (useCloud && currentUser) {
+                await addDoc(getPublicCol('materials'), data);
+            } else {
+                materials.unshift({ id: 'mat-' + Date.now() + Math.random().toString(36).slice(2, 6), ...data });
+                syncLocalFallback();
+            }
+        }
+
+        async function updateMaterialInStore(id, data) {
+            if (useCloud && currentUser) {
+                await updateDoc(getPublicDoc('materials', id), data);
+            } else {
+                const idx = materials.findIndex(m => m.id === id);
+                if (idx !== -1) materials[idx] = { id, ...data };
+                syncLocalFallback();
+            }
+        }
+
+        async function removeMaterialFromStore(id) {
+            if (useCloud && currentUser) {
+                await deleteDoc(getPublicDoc('materials', id));
+            } else {
+                materials = materials.filter(m => m.id !== id);
+                syncLocalFallback();
+            }
+        }
+
+        async function moveItemToTrash(itemData) {
+            const payload = {
+                ...itemData,
+                archivedAt: new Date().toISOString()
+            };
+            if (useCloud && currentUser) {
+                await addDoc(getPublicCol('trash'), payload);
+            } else {
+                trashItems.unshift({ id: 'tr-' + Date.now() + Math.random().toString(36).slice(2, 6), ...payload });
+                syncLocalFallback();
+            }
+        }
+
+        async function removeTrashFromStore(id) {
+            if (useCloud && currentUser) {
+                await deleteDoc(getPublicDoc('trash', id));
+            } else {
+                trashItems = trashItems.filter(t => t.id !== id);
+                syncLocalFallback();
+            }
+        }
+
+        // =================================================================
+        // 5. QUICK SHARE (WHATSAPP & INSTAGRAM)
+        // =================================================================
+        function copyToClipboardSafe(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+        }
+
+        window.sharePortalWhatsApp = function() {
+            const url = window.location.href;
+            const activeExams = exams.filter(e => !isExamExpiredBy01AM(e.date));
+            let msg = `📚 *Portal 6º Ano Euvira Info*\n_Uso exclusivo do 6º Ano — Cronogramas, Provas e Conteúdos de Estudo_\n\n`;
+            if (activeExams.length > 0) {
+                msg += `📅 *Provas da Semana:*\n`;
+                activeExams.sort((a, b) => a.date.localeCompare(b.date)).forEach(ex => {
+                    msg += `• *${ex.subject}* (${formatDateBR(ex.date)}): ${ex.title}\n`;
+                });
+                msg += `\n`;
+            }
+            msg += `🔗 Acesse os resumos e slides aqui:\n${url}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+        };
+
+        window.sharePortalInstagram = function() {
+            const url = window.location.href;
+            const msg = `📚 Portal 6º Ano Euvira Info — Cronograma de Provas, Resumos e Slides exclusivos da turma!\nAcesse aqui: ${url}`;
+            copyToClipboardSafe(msg);
+            showToast('Link e texto copiados! Cole no Direct ou Stories do Instagram.');
+            setTimeout(() => {
+                window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
+            }, 900);
+        };
+
+        window.shareCurrentItemWhatsApp = function() {
+            const msg = `📚 *6º Ano Euvira Info*\n*${currentModalShareData.title}*\n\n${currentModalShareData.text}\n\n🔗 Portal: ${window.location.href}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+        };
+
+        window.shareCurrentItemInstagram = function() {
+            const msg = `📚 6º Ano Euvira Info — ${currentModalShareData.title}\n\n${currentModalShareData.text}\n\nLink: ${window.location.href}`;
+            copyToClipboardSafe(msg);
+            showToast('Link e texto copiados! Cole no Direct ou Stories do Instagram.');
+            setTimeout(() => {
+                window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
+            }, 900);
+        };
+
+        window.copyModalText = function() {
+            copyToClipboardSafe(`${currentModalShareData.title}\n\n${currentModalShareData.text}`);
+            showToast('Conteúdo copiado!');
+        };
+
+        // =================================================================
+        // 6. LOGO MANAGEMENT
+        // =================================================================
+        function applyLogoToUI() {
+            const headerEl = document.getElementById('header-logo-container');
+            const previewEl = document.getElementById('config-logo-preview');
+            if (portalConfig.logoUrl) {
+                const img = `<img src="${portalConfig.logoUrl}" alt="Logo 6º Ano" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<i data-lucide=\\'graduation-cap\\' class=\\'w-6 h-6 text-amber-300\\'></i>'; lucide.createIcons();">`;
+                if (headerEl) headerEl.innerHTML = img;
+                if (previewEl) previewEl.innerHTML = img;
+            } else {
+                if (headerEl) headerEl.innerHTML = `<i data-lucide="graduation-cap" class="w-6 h-6 text-amber-300"></i>`;
+                if (previewEl) previewEl.innerHTML = `<i data-lucide="graduation-cap" class="w-6 h-6 text-amber-300"></i>`;
+            }
+            lucide.createIcons();
+        }
+
+        document.getElementById('logo-file-input').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (file.size > 550000) {
+                showToast('Imagem muito pesada (máx. 500KB). Use uma menor ou cole uma URL.', 'error');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = async (evt) => {
+                await saveConfigToStore({ logoUrl: evt.target.result });
+                applyLogoToUI();
+                showToast('Logo atualizada para toda a turma!');
+            };
+            reader.readAsDataURL(file);
+        });
+
+        window.applyLogoUrl = async function() {
+            const url = document.getElementById('logo-url-input').value.trim();
+            if (!url) return showToast('Cole uma URL válida de imagem.', 'error');
+            await saveConfigToStore({ logoUrl: url });
+            document.getElementById('logo-url-input').value = '';
+            applyLogoToUI();
+            showToast('Logo atualizada pelo link!');
+        };
+
+        window.resetLogoDefault = async function() {
+            await saveConfigToStore({ logoUrl: '' });
+            applyLogoToUI();
+            showToast('Logo padrão restaurada.');
+        };
+
+        // =================================================================
+        // 7. RENDER EXAMS BOARD (NO TIME, SUBJECT PILLS, 01:00 RULE)
+        // =================================================================
+        function renderExamSubjectPills() {
+            const container = document.getElementById('exam-subject-pills');
+            // Mostra "Todas" + matérias que possuem prova ou as principais matérias
+            const activeExams = exams.filter(e => !isExamExpiredBy01AM(e.date));
+            const subjectsWithExams = new Set(activeExams.map(e => e.subject));
+            const pillsToShow = SUBJECT_LIST.filter(sub => sub === 'Todas' || subjectsWithExams.has(sub) || ['Matemática', 'Português', 'Ciências', 'História', 'Geografia', 'Inglês'].includes(sub));
+
+            container.innerHTML = pillsToShow.map(sub => {
+                const count = sub === 'Todas'
+                    ? activeExams.length
+                    : activeExams.filter(e => e.subject === sub).length;
+                const isSelected = activeExamSubject === sub;
+
+                return `
+                    <button onclick="selectExamSubject('${sub}')"
+                        class="px-3.5 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap transition flex items-center gap-1.5 border ${isSelected
+                            ? 'bg-brand-600 text-white border-brand-600 shadow-md shadow-brand-600/20'
+                            : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-brand-400'}">
+                        <span>${sub}</span>
+                        <span class="px-1.5 py-0.2 rounded-md text-[10px] ${isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}">${count}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        window.selectExamSubject = function(sub) {
+            activeExamSubject = sub;
+            renderExamsBoard();
+        };
+
+        function renderExamsBoard() {
+            renderExamSubjectPills();
+
+            const grid = document.getElementById('exams-board-grid');
+            const empty = document.getElementById('exams-empty-state');
+            const countEl = document.getElementById('exam-total-count');
+
+            // Filtra apenas provas ativas (ainda não passaram da 01:00 da madrugada do dia seguinte)
+            const activeExams = exams
+                .filter(e => !isExamExpiredBy01AM(e.date))
+                .sort((a, b) => a.date.localeCompare(b.date));
+
+            countEl.textContent = activeExams.length;
+
+            const filtered = activeExamSubject === 'Todas'
+                ? activeExams
+                : activeExams.filter(e => e.subject === activeExamSubject);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                lucide.createIcons();
+                return;
+            }
+
+            empty.classList.add('hidden');
+            grid.innerHTML = filtered.map((exam, index) => {
+                const badge = getExamStatusBadge(exam.date);
+                const isNext = index === 0;
+                const weekday = getWeekdayBR(exam.date);
+
+                return `
+                    <div onclick="openExamDetail('${exam.id}')"
+                         class="card-hover cursor-pointer rounded-2xl p-5 border ${isNext ? 'bg-gradient-to-br from-slate-900 to-brand-900 text-white border-amber-400 shadow-xl shadow-brand-900/15' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm'} flex flex-col justify-between relative overflow-hidden">
+                        
+                        ${isNext ? `<div class="absolute top-0 right-0 bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-bl-xl">Próxima Prova</div>` : ''}
+
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-extrabold ${isNext ? 'bg-white/15 text-amber-300' : 'bg-brand-50 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300'}">
+                                    ${escapeHTML(exam.subject)}
+                                </span>
+                                ${badge ? `<span class="px-2 py-0.5 rounded-md text-[11px] font-extrabold ${badge.cls}">${badge.label}</span>` : ''}
+                            </div>
+
+                            <!-- Data e Dia da Semana (SEM HORÁRIO) -->
+                            <div class="flex items-center justify-between p-3 rounded-xl ${isNext ? 'bg-white/10 border border-white/10' : 'bg-slate-50 dark:bg-slate-800/70 border border-slate-100 dark:border-slate-800'} mb-3.5">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="calendar" class="w-4 h-4 ${isNext ? 'text-amber-400' : 'text-rose-500'}"></i>
+                                    <span class="text-sm font-extrabold">${formatDateBR(exam.date)}</span>
+                                </div>
+                                <span class="text-xs font-bold ${isNext ? 'text-amber-200' : 'text-slate-500 dark:text-slate-400'}">
+                                    ${weekday}
+                                </span>
+                            </div>
+
+                            <h4 class="font-extrabold text-base mb-1.5 ${isNext ? 'text-white' : 'text-slate-900 dark:text-white'}">
+                                ${escapeHTML(exam.title || `Avaliação de ${exam.subject}`)}
+                            </h4>
+
+                            <div>
+                                <span class="block text-[10px] font-bold uppercase tracking-wider ${isNext ? 'text-amber-300' : 'text-slate-400'} mb-1">Conteúdo de Estudo:</span>
+                                <p class="text-xs sm:text-sm ${isNext ? 'text-slate-100' : 'text-slate-600 dark:text-slate-300'} line-clamp-3 whitespace-pre-line leading-relaxed">
+                                    ${escapeHTML(exam.content)}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t ${isNext ? 'border-white/10 text-amber-300' : 'border-slate-100 dark:border-slate-800 text-brand-600 dark:text-brand-400'} flex items-center justify-between text-xs font-bold">
+                            <span>${exam.link ? '📎 Slide/Material anexado' : '6º Ano Euvira Info'}</span>
+                            <span class="flex items-center gap-1">Ver Detalhes <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // =================================================================
+        // 8. RENDER MATERIALS (RESUMOS, SLIDES, DEVERES & AVISOS)
+        // =================================================================
+        function getCategoryBadgeStyle(cat) {
+            if (cat === 'Resumos') {
+                return {
+                    badge: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border-blue-200 dark:border-blue-800',
+                    icon: 'book-open',
+                    borderTop: 'border-t-blue-500'
+                };
+            }
+            if (cat === 'Slides') {
+                return {
+                    badge: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border-amber-200 dark:border-amber-800',
+                    icon: 'presentation',
+                    borderTop: 'border-t-amber-500'
+                };
+            }
+            return {
+                badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
+                icon: 'bell-ring',
+                borderTop: 'border-t-emerald-500'
+            };
+        }
+
+        function renderMaterialsGrid() {
+            document.getElementById('count-todos').textContent = materials.length;
+            document.getElementById('count-resumos').textContent = materials.filter(m => m.category === 'Resumos').length;
+            document.getElementById('count-slides').textContent = materials.filter(m => m.category === 'Slides').length;
+            document.getElementById('count-deveres').textContent = materials.filter(m => m.category === 'Deveres & Avisos').length;
+
+            const grid = document.getElementById('materials-grid');
+            const empty = document.getElementById('empty-state');
+            const countLabel = document.getElementById('results-count');
+            const clearBtn = document.getElementById('clear-filters-btn');
+
+            const filtered = materials.filter(item => {
+                const matchCat = activeCategory === 'Todos' || item.category === activeCategory;
+                const matchSub = activeSubject === 'Todas' || item.subject === activeSubject;
+                const q = searchQuery.toLowerCase().trim();
+                const matchQ = !q ||
+                    item.title.toLowerCase().includes(q) ||
+                    item.content.toLowerCase().includes(q) ||
+                    item.subject.toLowerCase().includes(q);
+                return matchCat && matchSub && matchQ;
+            });
+
+            const hasFilter = activeCategory !== 'Todos' || activeSubject !== 'Todas' || searchQuery.trim() !== '';
+            clearBtn.classList.toggle('hidden', !hasFilter);
+            countLabel.textContent = `Exibindo ${filtered.length} ${filtered.length === 1 ? 'material' : 'materiais'} do 6º Ano`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                empty.classList.add('flex');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            empty.classList.remove('flex');
+
+            grid.innerHTML = filtered.map(item => {
+                const style = getCategoryBadgeStyle(item.category);
+                const hasLink = item.link && item.link.trim() !== '';
+
+                return `
+                    <article onclick="openMaterialDetail('${item.id}')"
+                        class="card-hover cursor-pointer bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 border-t-4 ${style.borderTop} p-5 shadow-sm hover:shadow-xl flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border ${style.badge}">
+                                    <i data-lucide="${style.icon}" class="w-3.5 h-3.5"></i>
+                                    ${item.category}
+                                </span>
+                                <span class="text-xs font-extrabold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                                    ${escapeHTML(item.subject)}
+                                </span>
+                            </div>
+
+                            <h4 class="font-extrabold text-lg text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors line-clamp-2 mb-2">
+                                ${escapeHTML(item.title)}
+                            </h4>
+
+                            <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed mb-4">
+                                ${escapeHTML(item.content)}
+                            </p>
+                        </div>
+
+                        <div class="pt-3.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                                ${formatDateBR(item.date)}
+                            </span>
+
+                            <div class="flex items-center gap-2 text-xs font-bold text-brand-600 dark:text-brand-400">
+                                ${hasLink ? `<span class="px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-[10px]">Anexo/Slide</span>` : ''}
+                                <span class="flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                                    Ver Detalhes <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // =================================================================
+        // 9. DETAIL MODALS
+        // =================================================================
+        window.openExamDetail = function(id) {
+            const exam = exams.find(e => e.id === id);
+            if (!exam) return;
+
+            const badge = getExamStatusBadge(exam.date);
+            document.getElementById('modal-badges').innerHTML = `
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-extrabold bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
+                    <i data-lucide="calendar-check" class="w-3.5 h-3.5"></i> Prova Oficial — 6º Ano
+                </span>
+                <span class="px-3 py-1 rounded-lg text-xs font-extrabold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                    ${escapeHTML(exam.subject)}
+                </span>
+            `;
+            document.getElementById('modal-title').textContent = exam.title || `Avaliação de ${exam.subject}`;
+            document.getElementById('modal-date').textContent = formatDateBR(exam.date);
+            document.getElementById('modal-weekday').textContent = getWeekdayBR(exam.date);
+            document.getElementById('modal-urgency-badge').innerHTML = badge
+                ? `<span class="px-2.5 py-0.5 rounded-md text-xs font-extrabold ${badge.cls}">${badge.label}</span>`
+                : '';
+            document.getElementById('modal-content').textContent = exam.content;
+
+            const linkBox = document.getElementById('modal-link-box');
+            const linkAnchor = document.getElementById('modal-link');
+            if (exam.link && exam.link.trim() !== '') {
+                linkAnchor.href = exam.link;
+                document.getElementById('modal-link-label').textContent = 'Abrir Slide / Resumo Vinculado à Prova';
+                linkBox.classList.remove('hidden');
+            } else {
+                linkBox.classList.add('hidden');
+            }
+
+            currentModalShareData = {
+                title: `Prova de ${exam.subject} (${formatDateBR(exam.date)} - ${getWeekdayBR(exam.date)})`,
+                text: exam.content,
+                link: exam.link || ''
+            };
+
+            const modal = document.getElementById('detail-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        };
+
+        window.openMaterialDetail = function(id) {
+            const item = materials.find(m => m.id === id);
+            if (!item) return;
+
+            const style = getCategoryBadgeStyle(item.category);
+            document.getElementById('modal-badges').innerHTML = `
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold border ${style.badge}">
+                    <i data-lucide="${style.icon}" class="w-3.5 h-3.5"></i> ${item.category}
+                </span>
+                <span class="px-3 py-1 rounded-lg text-xs font-extrabold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                    ${escapeHTML(item.subject)}
+                </span>
+            `;
+            document.getElementById('modal-title').textContent = item.title;
+            document.getElementById('modal-date').textContent = formatDateBR(item.date);
+            document.getElementById('modal-weekday').textContent = getWeekdayBR(item.date);
+            document.getElementById('modal-urgency-badge').innerHTML = '';
+            document.getElementById('modal-content').textContent = item.content;
+
+            const linkBox = document.getElementById('modal-link-box');
+            const linkAnchor = document.getElementById('modal-link');
+            if (item.link && item.link.trim() !== '') {
+                linkAnchor.href = item.link;
+                document.getElementById('modal-link-label').textContent = item.link.startsWith('data:')
+                    ? 'Baixar / Abrir Arquivo Anexado'
+                    : 'Abrir Slide / Material Vinculado';
+                if (item.link.startsWith('data:')) {
+                    linkAnchor.setAttribute('download', `${item.title.replace(/\s+/g, '_')}`);
+                } else {
+                    linkAnchor.removeAttribute('download');
+                }
+                linkBox.classList.remove('hidden');
+            } else {
+                linkBox.classList.add('hidden');
+            }
+
+            currentModalShareData = {
+                title: `${item.title} (${item.subject} - ${formatDateBR(item.date)})`,
+                text: item.content,
+                link: item.link || ''
+            };
+
+            const modal = document.getElementById('detail-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        };
+
+        window.closeDetailModal = function() {
+            const modal = document.getElementById('detail-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        // Filters
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-slate-900', 'dark:bg-brand-600', 'text-white', 'shadow-sm', 'font-bold');
+                    b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'font-semibold');
+                });
+                btn.classList.add('active', 'bg-slate-900', 'dark:bg-brand-600', 'text-white', 'shadow-sm', 'font-bold');
+                btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'font-semibold');
+                activeCategory = btn.dataset.category;
+                renderMaterialsGrid();
+            });
+        });
+
+        document.getElementById('subject-filter').addEventListener('change', (e) => {
+            activeSubject = e.target.value;
+            renderMaterialsGrid();
+        });
+
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderMaterialsGrid();
+        });
+
+        window.resetFilters = function() {
+            activeCategory = 'Todos';
+            activeSubject = 'Todas';
+            searchQuery = '';
+            document.getElementById('subject-filter').value = 'Todas';
+            document.getElementById('search-input').value = '';
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                const isAll = b.dataset.category === 'Todos';
+                b.classList.toggle('active', isAll);
+                b.classList.toggle('bg-slate-900', isAll);
+                b.classList.toggle('dark:bg-brand-600', isAll);
+                b.classList.toggle('text-white', isAll);
+                b.classList.toggle('shadow-sm', isAll);
+                b.classList.toggle('bg-slate-100', !isAll);
+                b.classList.toggle('dark:bg-slate-800', !isAll);
+                b.classList.toggle('text-slate-600', !isAll);
+                b.classList.toggle('dark:text-slate-300', !isAll);
+            });
+            renderMaterialsGrid();
+        };
+
+        // =================================================================
+        // 10. HIDDEN ADMIN TRIGGER & AUTHENTICATION
+        // =================================================================
+        let clickCounter = 0;
+        let clickTimer = null;
+
+        document.getElementById('secret-admin-trigger').addEventListener('click', () => {
+            clickCounter++;
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => { clickCounter = 0; }, 2200);
+            if (clickCounter >= 5) {
+                clickCounter = 0;
+                openAdminGate();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+                e.preventDefault();
+                openAdminGate();
+            }
+            if (e.key === 'Escape') {
+                closeDetailModal();
+                closePinModal();
+                closeAdminDashboard();
+            }
+        });
+
+        function openAdminGate() {
+            if (isAdminLoggedIn) {
+                openAdminDashboard();
+            } else {
+                const modal = document.getElementById('pin-modal');
+                const input = document.getElementById('pin-input');
+                document.getElementById('pin-error').classList.add('hidden');
+                input.value = '';
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => input.focus(), 100);
+            }
+        }
+
+        window.closePinModal = function() {
+            const modal = document.getElementById('pin-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        document.getElementById('pin-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const val = document.getElementById('pin-input').value.trim();
+            const currentPass = portalConfig.adminPass || 'euvira6';
+            if (val === currentPass) {
+                isAdminLoggedIn = true;
+                closePinModal();
+                const pill = document.getElementById('admin-active-pill');
+                pill.classList.remove('hidden');
+                pill.classList.add('inline-flex');
+                showToast('Painel ADM desbloqueado!');
+                openAdminDashboard();
+            } else {
+                document.getElementById('pin-error').classList.remove('hidden');
+                document.getElementById('pin-input').select();
+            }
+        });
+
+        window.openAdminDashboard = function() {
+            if (!isAdminLoggedIn) return openAdminGate();
+            resetExamForm();
+            resetMaterialForm('Resumos');
+            resetMaterialForm('Slides');
+            resetMaterialForm('Deveres & Avisos');
+            renderAdminLists();
+            renderTrashList();
+            const modal = document.getElementById('admin-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        };
+
+        window.closeAdminDashboard = function() {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        window.logoutAdmin = function() {
+            isAdminLoggedIn = false;
+            const pill = document.getElementById('admin-active-pill');
+            pill.classList.add('hidden');
+            pill.classList.remove('inline-flex');
+            closeAdminDashboard();
+            showToast('Modo ADM encerrado.');
+        };
+
+        window.updateAdminPassword = async function() {
+            const newPass = document.getElementById('new-pin-input').value.trim();
+            if (newPass.length < 4) {
+                return showToast('A senha deve ter no mínimo 4 caracteres.', 'error');
+            }
+            await saveConfigToStore({ adminPass: newPass });
+            document.getElementById('new-pin-input').value = '';
+            showToast('Senha ADM atualizada na nuvem!');
+        };
+
+        window.switchAdminTab = function(tabName) {
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                const isActive = btn.dataset.adminTab === tabName;
+                btn.classList.toggle('bg-white', isActive);
+                btn.classList.toggle('dark:bg-slate-900', isActive);
+                btn.classList.toggle('text-brand-600', isActive);
+                btn.classList.toggle('dark:text-brand-400', isActive);
+                btn.classList.toggle('border-t-2', isActive);
+                btn.classList.toggle('border-brand-600', isActive);
+                btn.classList.toggle('font-extrabold', isActive);
+                btn.classList.toggle('text-slate-600', !isActive);
+                btn.classList.toggle('dark:text-slate-400', !isActive);
+            });
+
+            document.querySelectorAll('.admin-panel').forEach(panel => {
+                panel.classList.add('hidden');
+                panel.classList.remove('grid');
+            });
+
+            const activePanel = document.getElementById(`admin-panel-${tabName}`);
+            if (activePanel) {
+                activePanel.classList.remove('hidden');
+                activePanel.classList.add('grid');
+            }
+            if (tabName === 'backup') renderTrashList();
+            lucide.createIcons();
+        };
+
+        // =================================================================
+        // 11. IA ORGANIZADORA (GEMINI API STRUCTURED JSON)
+        // =================================================================
+        window.organizeWithAI = async function() {
+            const rawText = document.getElementById('ai-raw-input').value.trim();
+            if (!rawText) {
+                return showToast('Digite ou cole as informações da semana primeiro!', 'error');
+            }
+
+            const btn = document.getElementById('ai-organize-btn');
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> <span>Organizando com IA...</span>`;
+            lucide.createIcons();
+
+            const todayStr = getOffsetDateStr(0);
+            const weekdayNow = getWeekdayBR(todayStr);
+
+            const systemPrompt = `Você é um assistente escolar organizador para o 6º Ano do Ensino Fundamental (Portal 6º Ano Euvira Info).
+Hoje é ${todayStr} (${weekdayNow}).
+Sua tarefa é ler o texto bagunçado do administrador e extrair TODOS os itens mencionados, classificando cada um como:
+- "Prova": avaliações, testes ou provas marcadas.
+- "Dever": deveres de casa, tarefas do livro/caderno, avisos ou entregas.
+
+Regras importantes:
+1. NUNCA inclua horários. Apenas datas no formato YYYY-MM-DD (calcule com base na data de hoje ${todayStr} se o usuário disser "segunda", "quarta", "dia 25", etc.).
+2. Padronize a matéria para uma destas: Matemática, Português, Ciências, História, Geografia, Inglês, Artes, Ed. Física, Informática.
+3. Organize o campo "content" em tópicos claros e objetivos de estudo (sem inventar respostas de tarefas).`;
+
+            const payload = {
+                contents: [{ parts: [{ text: rawText }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                kind: { type: "STRING", enum: ["Prova", "Dever"] },
+                                subject: { type: "STRING" },
+                                date: { type: "STRING" },
+                                title: { type: "STRING" },
+                                content: { type: "STRING" }
+                            },
+                            required: ["kind", "subject", "date", "title", "content"]
+                        }
+                    }
+                }
+            };
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            let success = false;
+            for (let attempt = 0; attempt < 3; attempt++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error('API Error');
+                    const result = await response.json();
+                    const jsonText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (jsonText) {
+                        aiGeneratedItems = JSON.parse(jsonText);
+                        success = true;
+                        break;
+                    }
+                } catch (err) {
+                    await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
+                }
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = originalHTML;
+            lucide.createIcons();
+
+            if (!success || !Array.isArray(aiGeneratedItems) || aiGeneratedItems.length === 0) {
+                showToast('Não foi possível interpretar o texto. Tente detalhar um pouco mais.', 'error');
+                return;
+            }
+
+            renderAIPreview();
+            showToast(`${aiGeneratedItems.length} ${aiGeneratedItems.length === 1 ? 'item organizado' : 'itens organizados'} pela IA!`);
+        };
+
+        function renderAIPreview() {
+            const container = document.getElementById('ai-preview-container');
+            const countEl = document.getElementById('ai-preview-count');
+            const pubBar = document.getElementById('ai-publish-bar');
+
+            if (aiGeneratedItems.length === 0) {
+                clearAIPreview();
+                return;
+            }
+
+            countEl.textContent = `${aiGeneratedItems.length} itens prontos para publicar`;
+            pubBar.classList.remove('hidden');
+
+            container.innerHTML = aiGeneratedItems.map((item, idx) => {
+                const isProva = item.kind === 'Prova';
+                return `
+                    <div class="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 space-y-2.5 shadow-sm">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-0.5 rounded-lg text-xs font-extrabold ${isProva ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300' : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300'}">
+                                    ${isProva ? '📅 Prova (Cronograma)' : '📝 Dever / Aviso'}
+                                </span>
+                                <input type="text" value="${escapeHTML(item.subject)}" onchange="updateAIItemField(${idx}, 'subject', this.value)"
+                                    class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-bold w-28 dark:text-white">
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <input type="date" value="${item.date}" onchange="updateAIItemField(${idx}, 'date', this.value)"
+                                    class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-semibold dark:text-white">
+                                <button type="button" onclick="removeAIItem(${idx})" class="p-1 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg">
+                                    <i data-lucide="x" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="text" value="${escapeHTML(item.title)}" onchange="updateAIItemField(${idx}, 'title', this.value)"
+                            class="w-full px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/70 text-xs font-extrabold dark:text-white border border-slate-200/70 dark:border-slate-700">
+                        <textarea rows="2" onchange="updateAIItemField(${idx}, 'content', this.value)"
+                            class="w-full px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/70 text-xs dark:text-slate-200 border border-slate-200/70 dark:border-slate-700">${escapeHTML(item.content)}</textarea>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        window.updateAIItemField = function(idx, field, value) {
+            if (aiGeneratedItems[idx]) aiGeneratedItems[idx][field] = value;
+        };
+
+        window.removeAIItem = function(idx) {
+            aiGeneratedItems.splice(idx, 1);
+            renderAIPreview();
+        };
+
+        window.clearAIPreview = function() {
+            aiGeneratedItems = [];
+            document.getElementById('ai-preview-count').textContent = 'Aguardando texto...';
+            document.getElementById('ai-publish-bar').classList.add('hidden');
+            document.getElementById('ai-preview-container').innerHTML = `
+                <div class="text-center py-12 px-4 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl">
+                    <i data-lucide="bot" class="w-8 h-8 text-slate-400 mx-auto mb-2"></i>
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400">
+                        Escreva os recados ao lado e clique em <strong>"Organizar com IA"</strong> para revisar e publicar tudo de uma vez!
+                    </p>
+                </div>
+            `;
+            lucide.createIcons();
+        };
+
+        window.publishAIPreviewItems = async function() {
+            if (aiGeneratedItems.length === 0) return;
+            for (const item of aiGeneratedItems) {
+                if (item.kind === 'Prova') {
+                    await addExamToStore({
+                        subject: item.subject,
+                        date: item.date,
+                        title: item.title,
+                        content: item.content,
+                        link: ''
+                    });
+                } else {
+                    await addMaterialToStore({
+                        category: 'Deveres & Avisos',
+                        subject: item.subject,
+                        date: item.date,
+                        title: item.title,
+                        content: item.content,
+                        link: ''
+                    });
+                }
+            }
+            document.getElementById('ai-raw-input').value = '';
+            clearAIPreview();
+            showToast('Todos os itens da IA foram publicados no portal!');
+        };
+
+        // =================================================================
+        // 12. ADMIN CRUD: PROVAS, MATERIAIS & LIXEIRA / BACKUP
+        // =================================================================
+        document.getElementById('exam-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('exam-edit-id').value;
+            const payload = {
+                subject: document.getElementById('exam-subject').value,
+                date: document.getElementById('exam-date').value,
+                title: document.getElementById('exam-title').value.trim(),
+                content: document.getElementById('exam-content').value.trim(),
+                link: document.getElementById('exam-link').value.trim()
+            };
+
+            if (editId) {
+                await updateExamInStore(editId, payload);
+                showToast('Prova atualizada!');
+            } else {
+                await addExamToStore(payload);
+                showToast('Prova adicionada ao cronograma!');
+            }
+            resetExamForm();
+        });
+
+        window.editExam = function(id) {
+            const exam = exams.find(e => e.id === id);
+            if (!exam) return;
+            document.getElementById('exam-edit-id').value = exam.id;
+            document.getElementById('exam-subject').value = exam.subject;
+            document.getElementById('exam-date').value = exam.date;
+            document.getElementById('exam-title').value = exam.title || '';
+            document.getElementById('exam-content').value = exam.content;
+            document.getElementById('exam-link').value = exam.link || '';
+
+            document.getElementById('exam-form-title').innerHTML = `<i data-lucide="pencil" class="w-5 h-5 text-amber-500"></i> <span>Editando Prova</span>`;
+            document.getElementById('exam-submit-btn').innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> <span>Salvar Alterações</span>`;
+            document.getElementById('exam-cancel-edit').classList.remove('hidden');
+            lucide.createIcons();
+        };
+
+        window.resetExamForm = function() {
+            document.getElementById('exam-form').reset();
+            document.getElementById('exam-edit-id').value = '';
+            document.getElementById('exam-date').value = getOffsetDateStr(0);
+            document.getElementById('exam-form-title').innerHTML = `<i data-lucide="plus-circle" class="w-5 h-5 text-rose-600"></i> <span>Adicionar Prova ao Cronograma</span>`;
+            document.getElementById('exam-submit-btn').innerHTML = `<i data-lucide="calendar-plus" class="w-4 h-4"></i> <span>Salvar no Cronograma</span>`;
+            document.getElementById('exam-cancel-edit').classList.add('hidden');
+            lucide.createIcons();
+        };
+
+        window.deleteExam = async function(id) {
+            const exam = exams.find(e => e.id === id);
+            if (exam) {
+                await moveItemToTrash({
+                    originalType: 'Prova',
+                    subject: exam.subject,
+                    title: exam.title || `Prova de ${exam.subject}`,
+                    date: exam.date,
+                    content: exam.content,
+                    link: exam.link || '',
+                    reason: 'Excluído manualmente pelo ADM'
+                });
+            }
+            await removeExamFromStore(id);
+            if (document.getElementById('exam-edit-id').value === id) resetExamForm();
+            showToast('Prova movida para Lixeira & Backup.');
+        };
+
+        function getFormSuffix(category) {
+            if (category === 'Resumos') return 'Resumos';
+            if (category === 'Slides') return 'Slides';
+            return 'Deveres';
+        }
+
+        // Handle optional small file upload in Slides tab
+        let uploadedSlideBase64 = '';
+        document.getElementById('file-Slides').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) {
+                uploadedSlideBase64 = '';
+                return;
+            }
+            if (file.size > 650000) {
+                showToast('Arquivo muito grande (máx. 600KB). Prefira colar o link do Google Slides/Drive.', 'error');
+                e.target.value = '';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                uploadedSlideBase64 = evt.target.result;
+                showToast('Arquivo anexado! Clique em Publicar Slide.');
+            };
+            reader.readAsDataURL(file);
+        });
+
+        window.handleMaterialSubmit = async function(e, category) {
+            e.preventDefault();
+            const suffix = getFormSuffix(category);
+            const editId = document.getElementById(`edit-id-${suffix}`).value;
+            const linkEl = document.getElementById(`link-${suffix}`);
+            let finalLink = linkEl ? linkEl.value.trim() : '';
+
+            if (category === 'Slides' && uploadedSlideBase64) {
+                finalLink = uploadedSlideBase64;
+            }
+
+            const payload = {
+                category: category,
+                title: document.getElementById(`title-${suffix}`).value.trim(),
+                subject: document.getElementById(`subject-${suffix}`).value,
+                date: document.getElementById(`date-${suffix}`).value,
+                content: document.getElementById(`content-${suffix}`).value.trim(),
+                link: finalLink
+            };
+
+            if (editId) {
+                await updateMaterialInStore(editId, payload);
+                showToast(`${category} atualizado!`);
+            } else {
+                await addMaterialToStore(payload);
+                showToast(`Publicado em ${category}!`);
+            }
+            uploadedSlideBase64 = '';
+            resetMaterialForm(category);
+        };
+
+        window.editMaterialItem = function(id) {
+            const item = materials.find(m => m.id === id);
+            if (!item) return;
+
+            const suffix = getFormSuffix(item.category);
+            document.getElementById(`edit-id-${suffix}`).value = item.id;
+            document.getElementById(`title-${suffix}`).value = item.title;
+            document.getElementById(`subject-${suffix}`).value = item.subject;
+            document.getElementById(`date-${suffix}`).value = item.date;
+            document.getElementById(`content-${suffix}`).value = item.content;
+            const linkEl = document.getElementById(`link-${suffix}`);
+            if (linkEl) linkEl.value = item.link || '';
+
+            if (item.category === 'Resumos') {
+                document.getElementById('resumo-form-title').innerHTML = `<i data-lucide="pencil" class="w-5 h-5 text-amber-500"></i> <span>Editando Resumo</span>`;
+                document.getElementById('btn-Resumos').innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> <span>Salvar Alterações</span>`;
+                document.getElementById('resumo-cancel-edit').classList.remove('hidden');
+            } else if (item.category === 'Slides') {
+                document.getElementById('slide-form-title').innerHTML = `<i data-lucide="pencil" class="w-5 h-5 text-amber-500"></i> <span>Editando Slide</span>`;
+                document.getElementById('btn-Slides').innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> <span>Salvar Alterações</span>`;
+                document.getElementById('slide-cancel-edit').classList.remove('hidden');
+            } else {
+                document.getElementById('dever-form-title').innerHTML = `<i data-lucide="pencil" class="w-5 h-5 text-amber-500"></i> <span>Editando Dever / Aviso</span>`;
+                document.getElementById('btn-Deveres').innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> <span>Salvar Alterações</span>`;
+                document.getElementById('dever-cancel-edit').classList.remove('hidden');
+            }
+            lucide.createIcons();
+        };
+
+        window.resetMaterialForm = function(category) {
+            const suffix = getFormSuffix(category);
+            const form = document.getElementById(`form-${suffix}`);
+            if (form) form.reset();
+            document.getElementById(`edit-id-${suffix}`).value = '';
+            document.getElementById(`date-${suffix}`).value = getOffsetDateStr(0);
+            uploadedSlideBase64 = '';
+
+            if (category === 'Resumos') {
+                document.getElementById('resumo-form-title').innerHTML = `<i data-lucide="plus-circle" class="w-5 h-5 text-blue-600"></i> <span>Adicionar Novo Resumo</span>`;
+                document.getElementById('btn-Resumos').innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> <span>Publicar Resumo</span>`;
+                document.getElementById('resumo-cancel-edit').classList.add('hidden');
+            } else if (category === 'Slides') {
+                document.getElementById('slide-form-title').innerHTML = `<i data-lucide="plus-circle" class="w-5 h-5 text-amber-500"></i> <span>Adicionar Novo Slide</span>`;
+                document.getElementById('btn-Slides').innerHTML = `<i data-lucide="presentation" class="w-4 h-4"></i> <span>Publicar Slide</span>`;
+                document.getElementById('slide-cancel-edit').classList.add('hidden');
+            } else {
+                document.getElementById('dever-form-title').innerHTML = `<i data-lucide="plus-circle" class="w-5 h-5 text-emerald-600"></i> <span>Adicionar Dever / Aviso</span>`;
+                document.getElementById('btn-Deveres').innerHTML = `<i data-lucide="bell-plus" class="w-4 h-4"></i> <span>Publicar Dever / Aviso</span>`;
+                document.getElementById('dever-cancel-edit').classList.add('hidden');
+            }
+            lucide.createIcons();
+        };
+
+        window.deleteMaterialItem = async function(id) {
+            const item = materials.find(m => m.id === id);
+            if (item) {
+                await moveItemToTrash({
+                    originalType: item.category,
+                    subject: item.subject,
+                    title: item.title,
+                    date: item.date,
+                    content: item.content,
+                    link: item.link || '',
+                    reason: 'Excluído manualmente pelo ADM'
+                });
+                resetMaterialForm(item.category);
+            }
+            await removeMaterialFromStore(id);
+            showToast('Item movido para Lixeira & Backup.');
+        };
+
+        // Lixeira & Backup Actions
+        window.simulateFridayReset = async function() {
+            await runAutomatedCycleCheck(true);
+        };
+
+        window.restoreTrashItem = async function(id) {
+            const item = trashItems.find(t => t.id === id);
+            if (!item) return;
+
+            if (item.originalType === 'Prova') {
+                await addExamToStore({
+                    subject: item.subject,
+                    title: item.title,
+                    date: item.date,
+                    content: item.content,
+                    link: item.link || ''
+                });
+            } else {
+                await addMaterialToStore({
+                    category: item.originalType,
+                    subject: item.subject,
+                    title: item.title,
+                    date: item.date,
+                    content: item.content,
+                    link: item.link || ''
+                });
+            }
+            await removeTrashFromStore(id);
+            showToast('Item restaurado para o site ativo!');
+        };
+
+        window.permanentlyDeleteTrashItem = async function(id) {
+            await removeTrashFromStore(id);
+            showToast('Item excluído permanentemente.');
+        };
+
+        function renderTrashList() {
+            const listEl = document.getElementById('trash-list');
+            const countEl = document.getElementById('trash-count');
+            if (!listEl) return;
+
+            const sorted = [...trashItems].sort((a, b) => (b.archivedAt || '').localeCompare(a.archivedAt || ''));
+            countEl.textContent = sorted.length;
+
+            if (sorted.length === 0) {
+                listEl.innerHTML = `<p class="text-xs text-slate-500 py-8 text-center">Nenhum item na lixeira ou histórico de backup.</p>`;
+                return;
+            }
+
+            listEl.innerHTML = sorted.map(item => `
+                <div class="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-[10px] font-extrabold text-slate-700 dark:text-slate-300">
+                                ${escapeHTML(item.originalType)}
+                            </span>
+                            <span class="text-xs font-extrabold text-brand-600 dark:text-brand-400">${escapeHTML(item.subject)}</span>
+                            <span class="text-[11px] text-slate-400">• Data: ${formatDateBR(item.date)}</span>
+                        </div>
+                        <h5 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white truncate">${escapeHTML(item.title)}</h5>
+                        <p class="text-[11px] text-amber-600 dark:text-amber-400 mt-0.5">${escapeHTML(item.reason || 'Arquivado')}</p>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button onclick="restoreTrashItem('${item.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-1">
+                            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Restaurar
+                        </button>
+                        <button onclick="permanentlyDeleteTrashItem('${item.id}')" title="Excluir permanentemente" class="p-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 hover:bg-rose-100 transition">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function renderAdminLists() {
+            // Provas List
+            const examListEl = document.getElementById('admin-exams-list');
+            document.getElementById('admin-exams-count').textContent = exams.length;
+            const sortedExams = [...exams].sort((a, b) => a.date.localeCompare(b.date));
+
+            examListEl.innerHTML = sortedExams.length === 0
+                ? `<p class="text-xs text-slate-500 py-6 text-center">Nenhuma prova no cronograma.</p>`
+                : sortedExams.map(ex => `
+                    <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-3">
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="px-2 py-0.5 rounded bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300 text-xs font-extrabold">${escapeHTML(ex.subject)}</span>
+                                <span class="text-xs font-bold text-slate-600 dark:text-slate-300">${formatDateBR(ex.date)} (${getWeekdayBR(ex.date)})</span>
+                            </div>
+                            <h5 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white truncate">${escapeHTML(ex.title || '')}</h5>
+                        </div>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button onclick="editExam('${ex.id}')" class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-brand-600">
+                                <i data-lucide="pencil" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="deleteExam('${ex.id}')" class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+            // Materials Lists
+            ['Resumos', 'Slides', 'Deveres & Avisos'].forEach(cat => {
+                const suffix = getFormSuffix(cat);
+                const listEl = document.getElementById(`admin-list-${suffix}`);
+                const countEl = document.getElementById(`admin-count-${suffix}`);
+                const items = materials.filter(m => m.category === cat);
+                countEl.textContent = items.length;
+
+                listEl.innerHTML = items.length === 0
+                    ? `<p class="text-xs text-slate-500 py-6 text-center">Nenhum item nesta categoria.</p>`
+                    : items.map(item => `
+                        <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-3">
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-xs font-extrabold text-brand-600 dark:text-brand-400">${escapeHTML(item.subject)}</span>
+                                    <span class="text-xs text-slate-400">• ${formatDateBR(item.date)}</span>
+                                </div>
+                                <h5 class="font-bold text-sm text-slate-900 dark:text-white truncate">${escapeHTML(item.title)}</h5>
+                            </div>
+                            <div class="flex items-center gap-1.5 shrink-0">
+                                <button onclick="editMaterialItem('${item.id}')" class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-brand-600">
+                                    <i data-lucide="pencil" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="deleteMaterialItem('${item.id}')" class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+            });
+
+            lucide.createIcons();
+        }
+
+        function renderAll() {
+            renderExamsBoard();
+            renderMaterialsGrid();
+            if (isAdminLoggedIn) {
+                renderAdminLists();
+                renderTrashList();
+            }
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[m]));
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const style = type === 'error'
+                ? 'bg-rose-600 text-white'
+                : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900';
+
+            toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm font-bold ${style} transform transition-all duration-300 translate-y-2 opacity-0`;
+            toast.innerHTML = `
+                <i data-lucide="${type === 'error' ? 'alert-circle' : 'check-circle-2'}" class="w-4 h-4 shrink-0"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        // =================================================================
+        // 13. THEME TOGGLE & BOOT
+        // =================================================================
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlEl = document.documentElement;
+
+        if (localStorage.getItem('euvira_theme') === 'dark' ||
+            (!localStorage.getItem('euvira_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlEl.classList.add('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            htmlEl.classList.toggle('dark');
+            localStorage.setItem('euvira_theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initStorageAndListeners();
+        });
+    </script>
+</body>
+</html>
